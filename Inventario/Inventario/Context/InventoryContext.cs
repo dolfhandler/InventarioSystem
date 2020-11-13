@@ -11,8 +11,6 @@ namespace Inventario.Context
 {
     public class InventoryContext : DbContext
     {
-        //public InventoryContext(DbContextOptions<InventoryContext> options) : base(options) { }
-
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder) {
             var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json");
