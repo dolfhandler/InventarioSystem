@@ -1,0 +1,17 @@
+﻿@{
+    var title = "Crear categorias";
+}
+
+<h1>@title</h1>
+
+<form action="/Category/Create" method="post" class="form-group">
+    <div class="form-group">
+        <label>Descripción</label>
+        <input type="text" name="description" value="" />
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-success">Guardar</button>
+        <a href="/Category/Categories" class="btn btn-danger">Cancelar</a>
+    </div>
+</form>

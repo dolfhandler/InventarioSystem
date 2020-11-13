@@ -1,0 +1,21 @@
+﻿@using Inventario.Models
+@model CategoryModel
+@{
+    var title = "Actualizar categorias";
+}
+
+<h1>@title</h1>
+
+<form action="/Category/Update" method="post" class="form-group">
+    <input type="hidden" name="id" value="@Model.id" />
+    <div class="form-group">
+        <label>Descripción</label>
+        <input type="text" name="description" value="@Model.description" />
+    </div>
+
+    <div class="form-group">
+        <button class="btn btn-success">Actualizar</button>
+        <a href="/Category/Categories" class="btn btn-danger">Cancelar</a>
+    </div>
+</form>
+
