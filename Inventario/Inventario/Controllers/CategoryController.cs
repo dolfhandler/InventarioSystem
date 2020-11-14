@@ -27,6 +27,7 @@ namespace Inventario.Controllers {
         public IActionResult Create(CategoryModel model) {
             if (ModelState.IsValid) {
                 model.date = DateTime.Now;
+                model.idUser = 1;
                 db.Categories.Add(model);
                 db.SaveChanges();
                 ViewBag.message = "¡Registro guardado satisfactoriamente!";

@@ -5,11 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Inventario.Models
-{
+namespace Inventario.Models {
+
     [Table("categorias")]
-    public class CategoryModel
-    {
+    public class CategoryModel {
         [Key]
         public int id { get; set; }
 

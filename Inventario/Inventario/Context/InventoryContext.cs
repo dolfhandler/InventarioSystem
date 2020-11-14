@@ -19,5 +19,11 @@ namespace Inventario.Context
         }
         
         public virtual DbSet<CategoryModel> Categories { get; set; }
+
+        public virtual DbSet<VoucherModel> Vouchers { get; set; }
+        public virtual DbSet<TypePaymentModel> TypePayments { get; set; }
+        
+        public virtual DbSet<TypeSaleModel> TypeSales { get; set; }
+
     }
 }

@@ -19,12 +19,20 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" href="/Category/Categories">Categorias</a>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="parameterDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Parametros iniciales
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="parameterDropdown">
+                                <a class="dropdown-item" href="/Category/Categories">Categorias</a>
+                                <a class="dropdown-item" href="/Voucher/Vouchers">Comprobantes</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/TypePayment/TypePayments">Tipos de pago</a>
+                                <a class="dropdown-item" href="/TypeSale/TypeSales">Tipos de venta</a>
+                            </div>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
                     </ul>
                 </div>
             </div>
