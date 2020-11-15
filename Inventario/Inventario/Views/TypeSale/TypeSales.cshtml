@@ -1,0 +1,58 @@
+﻿@using Inventario.Models
+@model List<TypeSaleModel>
+@{
+    var title = "Tipos de venta";
+    var types = Model != null ? Model : new List<TypeSaleModel>();
+    var messageType = ViewBag.messageType != null ? ViewBag.messageType : "success";
+    var message = ViewBag.message != null ? ViewBag.message : "";
+}
+
+<h1>
+    @title
+    <a href="/TypeSale/Create" class="btn btn-success float-right">Nuevo</a>
+</h1>
+
+@if (!String.IsNullOrEmpty(message)) {
+    <div class="alert-@messageType message">@message</div>
+}
+
+@if (types.Count > 0) {
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var type in Model) {
+                <tr>
+                    <td>@type.description</td>
+                    <td>
+                        <a href="/TypeSale/Update/@type.id">Editar</a>
+                        <a href="/TypeSale/Delete/@type.id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} else {
+    <h5 class="text-warning">No existen tipos de ventas</h5>
+    <a href="/TypeSale/Create">Crear tipo de venta</a>
+}
+
+@section Scripts{ 
+    <script>
+
+        const message = document.querySelector(".message");
+
+        function hideElementDelay(element, delay) {
+            setTimeout(function () {
+                element.style.display = "none";
+            }, delay);
+        }
+
+        hideElementDelay(message, 10000);
+
+    </script>
+}

@@ -1,0 +1,58 @@
+﻿@using Inventario.Models
+@model List<VoucherModel>
+@{
+    var title = "Comprobantes";
+    var vouchers = Model != null ? Model : new List<VoucherModel>();
+    var messageType = ViewBag.messageType != null ? ViewBag.messageType : "success";
+    var message = ViewBag.message != null ? ViewBag.message : "";
+}
+
+<h1>
+    @title
+    <a href="/Voucher/Create" class="btn btn-success float-right">Nuevo</a>
+</h1>
+
+@if (!String.IsNullOrEmpty(message)) {
+    <div class="alert-@messageType message">@message</div>
+}
+
+@if (vouchers.Count > 0) {
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>Descripción</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var voucher in Model) {
+                <tr>
+                    <td>@voucher.description</td>
+                    <td>
+                        <a href="/Voucher/Update/@voucher.id">Editar</a>
+                        <a href="/Voucher/Delete/@voucher.id">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+} else {
+    <h5 class="text-warning">No existen comprobantes</h5>
+    <a href="/Voucher/Create">Crear comprobante</a>
+}
+
+@section Scripts{
+    <script>
+
+        const message = document.querySelector(".message");
+
+        function hideElementDelay(element, delay) {
+            setTimeout(function () {
+                element.style.display = "none";
+            }, delay);
+        }
+
+        hideElementDelay(message, 10000);
+
+    </script>
+}
