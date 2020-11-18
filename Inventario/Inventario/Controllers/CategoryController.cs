@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Inventario.Context;
 using Inventario.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace Inventario.Controllers {
         public IActionResult Create(CategoryModel model) {
             if (ModelState.IsValid) {
                 model.date = DateTime.Now;
+                model.description = HttpUtility.HtmlEncode(model.description);
                 model.idUser = 1;
                 db.Categories.Add(model);
                 db.SaveChanges();
@@ -50,7 +52,7 @@ namespace Inventario.Controllers {
         public IActionResult Update(CategoryModel model) {
             if (ModelState.IsValid) {
                 var category = db.Categories.Find(model.id);
-                category.description = model.description;
+                category.description = HttpUtility.HtmlEncode(model.description);
                 category.date = DateTime.Now;
                 category.idUser = 1;
 

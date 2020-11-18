@@ -1,4 +1,5 @@
-﻿@{
+﻿@using System.Web;
+@{
     var title = "Crear producto";
     var categories = ViewBag.categories != null ? (ViewBag.categories as List<CategoryModel>) : new List<CategoryModel>();
 }
@@ -14,9 +15,12 @@
         <div class="form-group col-md-4">
             @if (categories.Count > 0) {
             <label for="">Seleccione una categoria</label>
-            <select class="form-control  form-control-chosen" name="category" data-placeholder="Selecciona una categoria...">
+            <select class="form-control  form-control-chosen" name="category"
+                    data-live-search="true"
+                    data-placeholder="Selecciona una categoria...">
+                <option value="">Selecciona una categoria...</option>
                 @foreach(var category in categories) {
-                    <option value="@category.id">@category.description</option>
+                    <option value="@category.id">@HttpUtility.HtmlDecode(category.description)</option>
                 }
             </select>
             } else {
@@ -45,7 +49,7 @@
     </div>
 
     <div class="form-group">
-        <button class="btn btn-success">Guardar</button>
+        <button class="btn btn-primary">Guardar</button>
         <a href="/Product/Products" class="btn btn-danger">Cancelar</a>
     </div>
 </form>

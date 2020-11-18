@@ -5,20 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Inventario</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="//cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css" />
+    <link href="~/css/dataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/css/dataTable/responsive.dataTables.min.css" rel="stylesheet" />
+    <link href="~/css/multiSelectBootstrap/bootstrap-select.css" rel="stylesheet" />
+    <script src="~/fonts/bece5894ed.js"></script>
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Inventario</a>
+                <a class="navbar-brand" title="Inicio" href="/Home/Index">
+                    <i class="fas fa-home text-primary"></i>
+                </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <ul class="navbar-nav flex-grow-1">
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="parameterDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Parametros iniciales
@@ -31,9 +37,22 @@
                                 <a class="dropdown-item" href="/TypeSale/TypeSales">Tipos de venta</a>
                             </div>
                         </li>
-                        <li class="nav-item active">
+
+                        <li class="nav-item">
                             <a class="nav-link" href="/Product/Products">Productos</a>
                         </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="parameterDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Inventario
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="parameterDropdown">
+                                <a class="dropdown-item" href="/Inventory/Input"><i class="fas fa-plus text-primary mr-2"></i>Entradas</a>
+                                <a class="dropdown-item" href="/Inventory/Output"><i class="fas fa-minus text-danger mr-2"></i>Salidas</a>
+                                <a class="dropdown-item" href="/Inventory/Inventory"><i class="fas fa-cubes text-success mr-2"></i>Existencia</a>
+                            </div>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -52,13 +71,28 @@
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/dataTable/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTable/dataTables.responsive.min.js"></script>
+    <script src="~/js/multiSelectBootstrap/bootstrap-select.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="//cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#myTable').DataTable();
+            var table = $('#inventoryTable').DataTable({
+                responsive: true
+            });
         });
+
+        const message = document.querySelector(".message");
+
+        function hideElementDelay(element, delay) {
+            setTimeout(function () {
+                element.style.display = "none";
+            }, delay);
+        }
+
+        hideElementDelay(message, 10000);
+
     </script>
     @RenderSection("Scripts", required: false)
 </body>

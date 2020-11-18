@@ -1,4 +1,5 @@
 ﻿@using Inventario.Models;
+@using System.Web;
 @model List<ProductModel>
 @{
     var title = "Productos";
@@ -11,59 +12,54 @@
 
 <h1>
     @title
-    <a href="/Product/Create" class="btn btn-success float-right">Nuevo</a>
+    <a href="/Product/Create" class="btn btn-primary float-right">Nuevo</a>
 </h1>
 
 @if (!String.IsNullOrEmpty(message)) {
-    <div class="alert-@messageType message">@message</div>
+    <div class="alert alert-@messageType alert-dismissible fade show message" role="alert">
+        @message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 }
 
 @if (products.Count > 0) {
-    <table id="myTable">
-        <thead>
-            <tr>
-                <th>Descripción</th>
-                <th>Categoría</th>
-                <th>Código</th>
-                <th>Valor de compra</th>
-                <th>Valor de venta</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var product in Model) {
-                var category = categories.Where(a=>a.id==product.category).FirstOrDefault();
+    <div class="table table-responsive">
+        <table id="inventoryTable" class="display compact wrap hover">
+            <thead>
                 <tr>
-                    <td>@product.description</td>
-                    <td>@category.description</td>
-                    <td>@product.code</td>
-                    <td class="text-right">$ @string.Format(numberFormat, product.purchasePrice)</td>
-                    <td class="text-right">$ @string.Format(numberFormat, product.salePrice)</td>
-                    <td>
-                        <a href="/Product/Update/@product.id">Editar</a>
-                        <a href="/Product/Delete/@product.id">Eliminar</a>
-                    </td>
+                    <th>Descripción</th>
+                    <th>Categoría</th>
+                    <th>Código</th>
+                    <th>Valor de compra</th>
+                    <th>Valor de venta</th>
+                    <th>Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var product in Model) {
+                    var category = categories.Where(a => a.id == product.category).FirstOrDefault();
+                    <tr>
+                        <td>@HttpUtility.HtmlDecode(product.description)</td>
+                        <td>@HttpUtility.HtmlDecode(category.description)</td>
+                        <td>@product.code</td>
+                        <td class="text-right">$ @string.Format(numberFormat, product.purchasePrice)</td>
+                        <td class="text-right">$ @string.Format(numberFormat, product.salePrice)</td>
+                        <td>
+                            <a href="/Product/Update/@product.id">Editar</a>
+                            <a href="/Product/Delete/@product.id">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 } else {
     <h5 class="text-warning">No hay productos creados</h5>
     <a href="/Product/Create">Crear producto</a>
 }
 
 @section Scripts{
-    <script>
 
-        const message = document.querySelector(".message");
-
-        function hideElementDelay(element, delay) {
-            setTimeout(function () {
-                element.style.display = "none";
-            }, delay);
-        }
-
-        hideElementDelay(message, 10000);
-
-    </script>
 }

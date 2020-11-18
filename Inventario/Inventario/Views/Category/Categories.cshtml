@@ -1,4 +1,5 @@
-﻿@using Inventario.Models
+﻿@using Inventario.Models;
+@using System.Web;
 @model List<CategoryModel>
 @{
     var title = "Categorias";
@@ -13,46 +14,41 @@
 </h1>
 
 @if (!String.IsNullOrEmpty(message)) {
-    <div class="alert-@messageType message">@message</div>
+    <div class="alert alert-@messageType alert-dismissible fade show message" role="alert">
+        @message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
 }
 
 @if (categories.Count > 0) {
-    <table id="myTable">
-        <thead>
-            <tr>
-                <th>Descripción</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var category in Model) {
+    <div class="table table-responsive">
+        <table id="inventoryTable" class="display compact wrap hover">
+            <thead>
                 <tr>
-                    <td>@category.description</td>
-                    <td>
-                        <a href="/Category/Update/@category.id">Editar</a>
-                        <a href="/Category/Delete/@category.id">Eliminar</a>
-                    </td>
+                    <th>Descripción</th>
+                    <th>Acciones</th>
                 </tr>
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @foreach (var category in Model) {
+                    <tr>
+                        <td>@HttpUtility.HtmlDecode(category.description)</td>
+                        <td>
+                            <a href="/Category/Update/@category.id">Editar</a>
+                            <a href="/Category/Delete/@category.id">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 } else {
     <h5 class="text-warning">No existen categorias</h5>
     <a href="/Category/Create">Crear categoría</a>
 }
 
-@section Scripts{ 
-    <script>
-
-        const message = document.querySelector(".message");
-
-        function hideElementDelay(element, delay) {
-            setTimeout(function () {
-                element.style.display = "none";
-            }, delay);
-        }
-
-        hideElementDelay(message, 10000);
-
-    </script>
+@section Scripts{
+    <script></script>
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Inventario.Context;
 using Inventario.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -29,6 +30,7 @@ namespace Inventario.Controllers
         public IActionResult Create(VoucherModel model) {
             if (ModelState.IsValid) {
                 model.date = DateTime.Now;
+                model.description = HttpUtility.HtmlEncode(model.description);
                 model.idUser = 1;
                 db.Vouchers.Add(model);
                 db.SaveChanges();
@@ -52,7 +54,7 @@ namespace Inventario.Controllers
         public IActionResult Update(VoucherModel model) {
             if (ModelState.IsValid) {
                 var voucher = db.Vouchers.Find(model.id);
-                voucher.description = model.description;
+                voucher.description = HttpUtility.HtmlEncode(model.description);
                 voucher.date = DateTime.Now;
                 voucher.idUser = 1;
 

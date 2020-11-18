@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web;
 using Inventario.Context;
 using Inventario.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -27,6 +28,7 @@ namespace Inventario.Controllers {
         public IActionResult Create(TypePaymentModel model) {
             if (ModelState.IsValid) {
                 model.date = DateTime.Now;
+                model.description = HttpUtility.HtmlEncode(model.description);
                 model.idUser = 1;
                 db.TypePayments.Add(model);
                 db.SaveChanges();
@@ -50,7 +52,7 @@ namespace Inventario.Controllers {
         public IActionResult Update(TypePaymentModel model) {
             if (ModelState.IsValid) {
                 var type = db.TypePayments.Find(model.id);
-                type.description = model.description;
+                type.description = HttpUtility.HtmlEncode(model.description);
                 type.date = DateTime.Now;
                 type.idUser = 1;
 
