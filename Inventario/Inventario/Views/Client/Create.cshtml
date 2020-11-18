@@ -1,0 +1,128 @@
+﻿
+@{
+    var title = "Crear tercero";
+}
+
+<h1>@title</h1>
+
+<form action="/Client/Create" method="post" enctype="multipart/form-data">
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="">Tipo de identificación</label>
+            <select class="form-control form-control-chosen" name="documentType">
+                <option value="">Seleccione un tipo</option>
+                <option value="0">CC</option>
+                <option value="1">NIT</option>
+            </select>
+        </div>
+        <div class="form-group col-md-6">
+            <label for="">Documento de identidad</label>
+            <input type="text" class="form-control" name="number" placeholder="Número de documento">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="">Nombres</label>
+            <input type="hidden" id="firstName" name="firstName" value="" />
+            <input type="hidden" id="middleName" name="middleName" value="" />
+            <input type="text" class="form-control" id="names" placeholder="Nombres">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="">Nombres</label>
+            <input type="hidden" id="lastname" name="lastname" value="" />
+            <input type="hidden" id="secondLastname" name="secondLastname" value="" />
+            <input type="text" class="form-control" id="lastnames" placeholder="Apellidos">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="">Dirección</label>
+            <input type="text" class="form-control" name="addres" placeholder="Dirección">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="">Correo</label>
+            <input type="text" class="form-control" name="email" placeholder="Correo">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="">Teléfono</label>
+            <div class="d-flex justify-content-between">
+                <input type="hidden" name="phones" value="" />
+                <input type="text" class="form-control" name="tels" id="phone" placeholder="Número de documento">
+                <a href="javascript:;" class="btn btn-success ml-2 addPhone"><i class="fas fa-plus"></i></a>
+            </div>
+        </div>
+        <div class="form-group col-md-6 content-tels">
+
+        </div>
+        <div class="form-group col-md-12 text-right">
+            <button class="btn btn-primary">Guardar</button>
+            <a href="//" class="btn btn-danger">Cancelar</a>
+        </div>
+
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        var phones = new Array();
+        $(document).ready(function () {
+            $(".addPhone").click(function () {
+                const phone = $("#phone");
+                if (phone.length === 0) {
+                    return;
+                }
+                phones.push(phone.val());
+                phone.val("");
+                console.log("phones->", phones);
+            });
+
+            $("#names").blur(function () {
+                const names = NameDecode($(this).val());
+                if (names.length === 0) return;
+
+                $("#firstName").val(names[0]);
+                let middleName = "";
+                for (let i = 1; i < names.length; i++) {
+                    middleName += " " + names[i];
+                }
+                $("#middleName").val(middleName.trim());
+            });
+
+            $("#lastnames").blur(function () {
+                const lastnames = NameDecode($(this).val());
+                if (lastnames.length === 0) return;
+
+                $("#lastname").val(lastnames[0]);
+                let secondLastname = "";
+                for (let i = 1; i < lastnames.length; i++) {
+                    secondLastname += " " + lastnames[i];
+                }
+                $("#secondLastname").val(secondLastname.trim());
+            });
+
+            function NameDecode(name) {
+                do {
+                    name = name.replace("  ", " ");
+                } while (name.includes("  "));
+
+                let resultado = new Array();
+                let vn = name.split(" ");
+
+                for (let i = 0; i < vn.length; i++) {
+                    if (vn[i] === "de") {
+                        if (vn[i + 1] === "la" || vn[i + 1] === "los") {
+                            resultado.push(`${vn[i]} ${vn[i + 1]} ${vn[i + 2]}`);
+                            i += 2;
+                        } else {
+                            resultado.push(`${vn[i]} ${vn[i + 1]}`);
+                            i += 1;
+                        }
+                    } else if (vn[i] === "del") {
+                        resultado.push(`${vn[i]} ${vn[i + 1]}`);
+                        i += 1;
+                    } else {
+                        resultado.push(vn[i]);
+                    }
+                }
+
+                return resultado;
+            }
+        });
+    </script>
+}

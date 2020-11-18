@@ -29,6 +29,12 @@ namespace Inventario.Context
         public virtual DbSet<ProductModel> Products { get; set; }
         
         public virtual DbSet<InventoryModel> Inventory { get; set; }
+        
+        public virtual DbSet<ClientModel> Clients { get; set; }
+        
+        public virtual DbSet<TerceroModel> Terceros { get; set; }
+        
+        public virtual DbSet<TerceroPorTelefonoModel> TelefonosTercero { get; set; }
 
     }
 }
