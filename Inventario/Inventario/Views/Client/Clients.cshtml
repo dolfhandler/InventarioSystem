@@ -24,8 +24,7 @@
 }
 
 @if (terceros.Count > 0) {
-    <div class="table table-responsive">
-        <table id="inventoryTable" class="display compact wrap hover">
+        <table id="inventoryTable" class="display compact wrap hover" style="width:100%">
             <thead>
                 <tr>
                     <th>Tipo</th>
@@ -51,7 +50,6 @@
                 }
             </tbody>
         </table>
-    </div>
 } else {
     <h5 class="text-warning">No existen clientes</h5>
     <a href="/Client/Create">Crear cliente</a>
