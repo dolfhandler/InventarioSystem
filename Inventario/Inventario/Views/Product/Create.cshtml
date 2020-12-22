@@ -15,9 +15,8 @@
         <div class="form-group col-md-4">
             @if (categories.Count > 0) {
             <label for="">Seleccione una categoria</label>
-            <select class="form-control  form-control-chosen" name="category"
-                    data-live-search="true"
-                    data-placeholder="Selecciona una categoria...">
+            <select class="form-control-chosen" name="category"
+                    >
                 <option value="">Selecciona una categoria...</option>
                 @foreach(var category in categories) {
                     <option value="@category.id">@HttpUtility.HtmlDecode(category.description)</option>
