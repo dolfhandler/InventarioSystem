@@ -14,18 +14,23 @@ namespace Inventario.Controllers {
 
         public int USER = 1;
 
+        public dynamic model = new ExpandoObject();
+
         public ClientController() {
             db = new InventoryContext();
         }
 
         public IActionResult Clients() {
-            dynamic model = new ExpandoObject();
+            LoadModel();
+            return View(model);
+        }
+
+        private void LoadModel() {
             model.clients = db.Clients.ToList();
             model.phones = db.TelefonosTercero.ToList();
             model.terceros = db.Terceros.ToList();
-            return View(model);
         }
-        
+
         public IActionResult Create() {
             return View();
         }
@@ -44,7 +49,8 @@ namespace Inventario.Controllers {
                 ViewBag.messageType = "danger";
                 return View();
             }
-            return RedirectToAction("Clients");
+            LoadModel();
+            return View("Clients", model);
         }
 
         private int SaveTercero(TerceroModel tercero) {
@@ -65,8 +71,8 @@ namespace Inventario.Controllers {
                     user = USER
                 };
                 db.Clients.Add(client);
-            } catch (Exception ex) { 
-            
+            } catch (Exception ex) {
+
             }
         }
 

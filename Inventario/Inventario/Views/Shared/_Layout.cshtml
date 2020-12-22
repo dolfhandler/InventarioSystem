@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Inventario</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="~/css/dataTable/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="~/css/dataTable/fixedHeader.dataTables.min.css" rel="stylesheet" />
     <link href="~/css/dataTable/responsive.dataTables.min.css" rel="stylesheet" />
     @*    <link href="~/css/multiSelectBootstrap/bootstrap-select.css" rel="stylesheet" />*@
     <link href="~/css/multiSelectBootstrap/component-chosen.min.css" rel="stylesheet" />
@@ -42,13 +43,14 @@
                         <li class="nav-item">
                             <a class="nav-link" href="/Product/Products">Productos</a>
                         </li>
-                        
+
                         <li class="nav-item">
                             <a class="nav-link" href="/Client/Clients">Clientes</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/Provider/Providers">Proveedores</a>
                         </li>
+
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="parameterDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 Inventario
@@ -79,6 +81,7 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/dataTable/jquery.dataTables.min.js"></script>
+    <script src="~/js/dataTable/dataTables.fixedHeader.min.js"></script>
     <script src="~/js/dataTable/dataTables.responsive.min.js"></script>
     @*<script src="~/js/multiSelectBootstrap/bootstrap-select.js"></script>*@
     <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -88,8 +91,7 @@
             var table = $('#inventoryTable').DataTable({
                 responsive: true
             });
-
-            $('.form-control-chosen').chosen();
+            new $.fn.dataTable.FixedHeader(table);
         });
 
         const message = document.querySelector(".message");

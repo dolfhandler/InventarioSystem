@@ -7,6 +7,7 @@
     var messageType = ViewBag.messageType != null ? ViewBag.messageType : "success";
     var message = ViewBag.message != null ? ViewBag.message : "";
     var terceros = Model.terceros as List<TerceroModel>;
+    var clients = Model.clients as List<ClientModel>;
 }
 
 <h1>
@@ -23,9 +24,8 @@
     </div>
 }
 
-@if (terceros.Count > 0) {
-    <div class="table table-responsive">
-        <table id="inventoryTable" class="display compact wrap hover">
+@if (clients.Count > 0) {
+        <table id="inventoryTable" class="display compact wrap hover" style="width:100%">
             <thead>
                 <tr>
                     <th>Tipo</th>
@@ -36,7 +36,9 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var tercero in terceros) {
+                @foreach (var client in clients) {
+                    var tercero = terceros.Where(t => t.id == client.tercero).FirstOrDefault();
+
                     tercero.fullName = ($"{tercero.firstName} {tercero.middleName}".Trim() +" "+ $"{tercero.lastname} {tercero.secondLastname}".Trim()).Trim();
                     <tr>
                         <td>@tercero.documentType.ToUpper()</td>
@@ -51,7 +53,6 @@
                 }
             </tbody>
         </table>
-    </div>
 } else {
     <h5 class="text-warning">No existen clientes</h5>
     <a href="/Client/Create">Crear cliente</a>
