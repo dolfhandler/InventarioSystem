@@ -9,7 +9,7 @@ namespace Inventario.Models {
     [Table("terceros")]
     public class TerceroModel {
         
-        [Column("correo")] 
+        [Column("correo")]
         public string email { get; set; }
         
         [Column("direccion")] 
@@ -41,6 +41,7 @@ namespace Inventario.Models {
         [Column("tpo_documento")] 
         public string documentType { get; set; }
 
-        public virtual IEnumerable<ClientModel> clients { get; set; }
+        [NotMapped]
+        public string fullName { get; set; }
     }
 }

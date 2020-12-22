@@ -1,6 +1,6 @@
 ﻿
 @{
-    var title = "Crear tercero";
+    var title = "Crear cliente";
 }
 
 <h1>@title</h1>
@@ -11,8 +11,8 @@
             <label for="">Tipo de identificación</label>
             <select class="form-control form-control-chosen" name="documentType">
                 <option value="">Seleccione un tipo</option>
-                <option value="0">CC</option>
-                <option value="1">NIT</option>
+                <option value="cc">CC</option>
+                <option value="nit">NIT</option>
             </select>
         </div>
         <div class="form-group col-md-6">
@@ -43,6 +43,10 @@
             <label for="">Teléfono</label>
             <div class="d-flex justify-content-between">
                 <input type="hidden" name="phones" value="" />
+                <select name="type" id="phoneType" class="form-control form-control-chosen mr-2">
+                    <option value="fijo" selected>Fijo</option>
+                    <option value="movil">Móvil</option>
+                </select>
                 <input type="text" class="form-control" name="tels" id="phone" placeholder="Número de documento">
                 <a href="javascript:;" class="btn btn-success ml-2 addPhone"><i class="fas fa-plus"></i></a>
             </div>
@@ -60,17 +64,57 @@
 
 @section Scripts {
     <script>
-        var phones = new Array();
+        var phoneCollection = new Array();
         $(document).ready(function () {
             $(".addPhone").click(function () {
                 const phone = $("#phone");
-                if (phone.length === 0) {
+                const phoneType = $("#phoneType").val();
+                if (phone.val().trim().length === 0) {
                     return;
                 }
-                phones.push(phone.val());
+
+                const item = new TerceroPorTelefonoModel(0, 0, phone.val(), phoneType);
+
+                phoneCollection.push(item);
                 phone.val("");
-                console.log("phones->", phones);
+                
+                renderPhones(phoneCollection);
             });
+
+            function renderPhones(phones) {
+                let containerPhones = $(".content-tels");
+                containerPhones.html("");
+                let content = "";
+
+                for (let [index, phone] of phones.entries()) {
+                    let component = `
+                        <input type="hidden" name="phoneCollection" value='${JSON.stringify(phone)}'/>
+                        <div class="d-flex justify-content-between" style="width: auto;">
+                            <div class="mr-2">
+                                ${phone.type === "fijo" ? `<i class="fas fa-phone-alt mr-2"></i>` : `<i class="fas fa-mobile-alt mr-2"></i>`}
+                                ${phone.tel}
+                            </div>
+                            <div class="text-danger btnDeletePhone" phoneIndex="${index}" style="cursor: pointer;">
+                                &times;
+                            </div>
+                        </div>
+                    `;
+                    content += component;
+                }
+
+                containerPhones.html(content);
+
+                $(".btnDeletePhone").click(function () {
+                    const phoneIndex = parseInt($(this).attr("phoneIndex"));
+                    const newPhones = phones.filter(function (phone, index) {
+                        if (index !== phoneIndex) {
+                            return phone;
+                        }
+                    });
+                    phoneCollection = newPhones;
+                    renderPhones(phoneCollection);
+                });
+            }
 
             $("#names").blur(function () {
                 const names = NameDecode($(this).val());
@@ -124,5 +168,14 @@
                 return resultado;
             }
         });
+
+        class TerceroPorTelefonoModel {
+            constructor(id, client, tel, type) {
+                this.id = id;
+                this.client = client;
+                this.tel = tel;
+                this.type = type;
+            }
+        }
     </script>
 }
