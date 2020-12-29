@@ -21,7 +21,7 @@
         <div class="form-group col-md-4">
             @if (categories.Count > 0) {
             <label for="">Seleccione una categoria</label>
-            <select class="form-control  form-control-chosen" name="category" data-placeholder="Selecciona una categoria...">
+            <select class="form-control-chosen" name="category" data-placeholder="Selecciona una categoria...">
                 @foreach(var category in categories) {
                     var description = HttpUtility.HtmlDecode(category.description);
                     if (category.id.Equals(Model.category)) {

@@ -9,7 +9,7 @@
     <div class="form-row">
         <div class="form-group col-md-6">
             <label for="">Tipo de identificación</label>
-            <select class="form-control form-control-chosen" name="documentType">
+            <select class="form-control-chosen" name="documentType">
                 <option value="">Seleccione un tipo</option>
                 <option value="cc">CC</option>
                 <option value="nit">NIT</option>
@@ -43,11 +43,11 @@
             <label for="">Teléfono</label>
             <div class="d-flex justify-content-between">
                 <input type="hidden" name="phones" value="" />
-                <select name="type" id="phoneType" class="form-control form-control-chosen mr-2">
+                <select class="mr-2 form-control-chosen" name="type" id="phoneType">
                     <option value="fijo" selected>Fijo</option>
                     <option value="movil">Móvil</option>
                 </select>
-                <input type="text" class="form-control" name="tels" id="phone" placeholder="Número de documento">
+                <input type="text" class="form-control" name="tels" id="phone" placeholder="Número de teléfono">
                 <a href="javascript:;" class="btn btn-success ml-2 addPhone"><i class="fas fa-plus"></i></a>
             </div>
         </div>
