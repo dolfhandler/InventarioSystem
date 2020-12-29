@@ -16,8 +16,20 @@ namespace Inventario.Controllers {
 
         public IActionResult Inventory() {
             var stock = db.Inventory.ToList();
-            LoadProducts();
-            return View(stock);
+            var products = db.Products.ToList();
+
+            var productsInStock = from a in stock
+                                  join b in products on a.product equals b.id into ab
+                                  from subAB in ab.DefaultIfEmpty()
+                                  select new InventoryModel {
+                                      id = a.id,
+                                      product = subAB.id,
+                                      productName = subAB.description,
+                                      inputs = a.inputs,
+                                      outputs = a.outputs,
+                                      stock = a.stock
+                                  };
+            return View(productsInStock);
         }
         
         [HttpPost]
@@ -36,13 +48,11 @@ namespace Inventario.Controllers {
             }
 
             var stock = db.Inventory.ToList();
-            LoadProducts();
             return View("Inventory", stock);
         }
 
         public IActionResult Update(int id) {
             var stock = db.Inventory.Find(id);
-            LoadProducts();
             return View(stock);
         }
 
@@ -55,13 +65,7 @@ namespace Inventario.Controllers {
             ViewBag.messageType = "success";
 
             var stock = db.Inventory.ToList();
-            LoadProducts();
             return View("Inventory", stock);
-        }
-
-        private void LoadProducts() {
-            var products = db.Products.ToList();
-            ViewBag.products = products;
         }
 
     }

@@ -1,10 +1,8 @@
 ﻿@using Inventario.Models;
 @using System.Web;
-@model List<InventoryModel>
+@model IEnumerable<InventoryModel>
 @{
     var title = "Inventario";
-    var inventoryCollection = Model != null ? Model : new List<InventoryModel>();
-    var products = ViewBag.products != null ? (ViewBag.products as List<ProductModel>) : new List<ProductModel>();
     var messageType = ViewBag.messageType != null ? ViewBag.messageType : "success";
     var message = ViewBag.message != null ? ViewBag.message : "";
     var numberFormat = "{0:#,0.00}";
@@ -24,34 +22,33 @@
     </div>
 }
 
-@if (inventoryCollection.Count > 0) {
-    <div class="table table-responsive">
-        <table id="inventoryTable" class="display compact wrap hover">
-            <thead>
+@if (Model != null) {
+    <table id="inventoryTable" class="display compact wrap hover">
+        <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Entradas</th>
+                <th>Salidas</th>
+                <th>Existencia</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var inventory in Model) {
                 <tr>
-                    <th>Producto</th>
-                    <th>Entradas</th>
-                    <th>Salidas</th>
-                    <th>Existencia</th>
-                    <th>Acciones</th>
+                    <td>@HttpUtility.HtmlDecode(inventory.productName)</td>
+                    <td class="text-right">@string.Format(numberFormat, inventory.inputs)</td>
+                    <td class="text-right">@string.Format(numberFormat, inventory.outputs)</td>
+                    <td class="text-right">@string.Format(numberFormat, inventory.stock)</td>
+                    <td class="text-right">
+                        <a class="btn btn-sm btn-danger" href="/Inventory/Delete/@inventory.id" title="Eliminar">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
                 </tr>
-            </thead>
-            <tbody>
-                @foreach (var inventory in Model) {
-                    var product = products.Where(a => a.id == inventory.product).FirstOrDefault();
-                    <tr>
-                        <td>@HttpUtility.HtmlDecode(product.description)</td>
-                        <td class="text-right">@string.Format(numberFormat, inventory.inputs)</td>
-                        <td class="text-right">@string.Format(numberFormat, inventory.outputs)</td>
-                        <td class="text-right">@string.Format(numberFormat, inventory.stock)</td>
-                        <td class="text-right">
-                            <a class="btn btn-sm btn-danger" href="/Inventory/Delete/@inventory.id" title="Eliminar"><i class="fas fa-trash"></i></a>
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+            }
+        </tbody>
+    </table>
 } else {
     <h5 class="text-warning">No hay productos en existencia</h5>
     <a href="/Inventory/Create">Nuevo registro de inventario</a>

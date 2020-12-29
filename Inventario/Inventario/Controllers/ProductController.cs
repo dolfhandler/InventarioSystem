@@ -13,6 +13,8 @@ namespace Inventario.Controllers {
     public class ProductController : Controller {
         public InventoryContext db { get; set; }
 
+        public int USER = 1;
+
         public ProductController() {
             db = new InventoryContext();
         }
@@ -31,12 +33,15 @@ namespace Inventario.Controllers {
         [HttpPost]
         public IActionResult Create(ProductModel model, IFormFile photo) {
             model.date = DateTime.Now;
-            model.user = 1;
+            model.user = USER;
             model.description = HttpUtility.HtmlEncode(model.description);
             model.photo = GetByteArrayFromFile(photo);
             if (ModelState.IsValid) {
                 db.Products.Add(model);
                 db.SaveChanges();
+
+                SaveProductInInventory(model.id);
+
                 ViewBag.message = "¡Registro guardado satisfactoriamente!";
                 ViewBag.messageType = "success";
             } else {
@@ -47,6 +52,19 @@ namespace Inventario.Controllers {
             var products = db.Products.ToList();
             LoadCategories();
             return View("Products", products);
+        }
+
+        private void SaveProductInInventory(int idProduct) {
+            var model = new InventoryModel {
+                inputs = 0,
+                outputs = 0,
+                stock = 0,
+                product = idProduct,
+                date = DateTime.Now,
+                user = USER
+            };
+            db.Inventory.Add(model);
+            db.SaveChanges();
         }
 
         public IActionResult Update(int id) {

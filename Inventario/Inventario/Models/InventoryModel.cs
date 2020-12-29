@@ -24,6 +24,9 @@ namespace Inventario.Models {
 
         [Column("id_producto")]
         public int product { get; set; }
+        
+        [NotMapped]
+        public string productName { get; set; }
 
         [Column("id_usuario")]
         public int user { get; set; }
