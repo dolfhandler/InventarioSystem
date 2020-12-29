@@ -1,0 +1,63 @@
+﻿@using Inventario.Models;
+@using System.Web;
+@using System.Dynamic;
+@model dynamic
+
+@{
+    string title = "Proveedores";
+    var messageType = ViewBag.messageType != null ? ViewBag.messageType : "success";
+    var message = ViewBag.message != null ? ViewBag.message : "";
+    var terceros = Model.terceros as List<TerceroModel>;
+    var providers = Model.providers as List<ProviderModel>;
+}
+
+<h1>
+    @title
+    <a href="/Provider/Create" class="btn btn-success float-right">Nuevo</a>
+</h1>
+
+@if (!String.IsNullOrEmpty(message)) {
+    <div class="alert alert-@messageType alert-dismissible fade show message" role="alert">
+        @message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+
+@if (providers.Count > 0) {
+    <div class="table table-responsive">
+        <table id="inventoryTable" class="display compact wrap hover">
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Documento</th>
+                    <th>Nombre</th>
+                    <th>Dirección</th>
+                    <th>Página web</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var provider in providers) {
+                    var tercero = terceros.Where(t => t.id == provider.id_tercero).FirstOrDefault();
+                    tercero.fullName = ($"{tercero.firstName} {tercero.middleName}".Trim() + " " + $"{tercero.lastname} {tercero.secondLastname}".Trim()).Trim();
+                    <tr>
+                        <td>@tercero.documentType.ToUpper()</td>
+                        <td>@tercero.number</td>
+                        <td>@HttpUtility.HtmlDecode(tercero.fullName)</td>
+                        <td>@tercero.addres</td>
+                        <td>@provider.web_page</td>
+                        <td>
+                            <a href="/Provider/Update/@tercero.id">Editar</a>
+                            <a href="/Provider/Delete/@tercero.id">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+} else {
+    <h5 class="text-warning">No existen proveedores</h5>
+    <a href="/Provider/Create">Crear proveedor</a>
+}
