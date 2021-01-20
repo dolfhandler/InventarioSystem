@@ -19,12 +19,12 @@ namespace Inventario.Controllers {
             var products = db.Products.ToList();
 
             var productsInStock = from a in stock
-                                  join b in products on a.product equals b.id into ab
-                                  from subAB in ab.DefaultIfEmpty()
+                                  join b in products on a.product equals b.id // into ab
+                                  // from subAB in ab.DefaultIfEmpty()
                                   select new InventoryModel {
                                       id = a.id,
-                                      product = subAB.id,
-                                      productName = subAB.description,
+                                      product = b.id,
+                                      productName = b.description,
                                       inputs = a.inputs,
                                       outputs = a.outputs,
                                       stock = a.stock

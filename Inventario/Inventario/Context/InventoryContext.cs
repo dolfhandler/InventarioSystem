@@ -21,6 +21,8 @@ namespace Inventario.Context
         public virtual DbSet<CategoryModel> Categories { get; set; }
 
         public virtual DbSet<VoucherModel> Vouchers { get; set; }
+        public virtual DbSet<PurshaseModel> Purshase { get; set; }
+        public virtual DbSet<PurshasesProductsModel> PurshasesProducts { get; set; }
 
         public virtual DbSet<TypePaymentModel> TypePayments { get; set; }
         
@@ -36,6 +38,7 @@ namespace Inventario.Context
         public virtual DbSet<TerceroModel> Terceros { get; set; }
         
         public virtual DbSet<TerceroPorTelefonoModel> TelefonosTercero { get; set; }
+
 
     }
 }

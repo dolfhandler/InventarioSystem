@@ -1,0 +1,19 @@
+﻿using Inventario.Models;
+@using System.Web;
+@using System.Dynamic;
+@model dynamic;
+
+@{
+    string title = "Compras";
+    var messageType = ViewBag.messageType != null ? ViewBag.messageType : "success";
+    var message = ViewBag.message != null ? ViewBag.message : "";
+    var purshases = Model.purshases as List<PurshaseModel>;
+    var purshasesproducts = Model.purshasesProducts as List<PurshasesProductsModel>;
+    var clients = ViewBag.clientsall != null ? ViewBag.clientsall as List<ClientModel> : new List<ClientModel>();
+    var vouchers = ViewBag.vouchers != null ? ViewBag.vouchers as List<VoucherModel> : new List<VoucherModel>();
+    var productsInStock = ViewBag.productsInStock != null ? ViewBag.productsInStock as List<InventoryModel> : new List<InventoryModel>();
+}
+
+
+<h1>Purhase</h1>
+
